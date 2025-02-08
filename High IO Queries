@@ -1,3 +1,5 @@
+# This Query helps to find high IO consuming queries in the database
+
 SELECT 
   mean_exec_time / 1000 as mean_exec_time_secs, 
   calls, 
