@@ -1,0 +1,15 @@
+SELECT 
+  mean_exec_time / 1000 as mean_exec_time_secs, 
+  calls, 
+  rows, 
+  shared_blks_hit, 
+  shared_blks_read, 
+  shared_blks_hit /(shared_blks_hit + shared_blks_read):: NUMERIC * 100 as hit_ratio, 
+  (blk_read_time + blk_write_time)/calls as average_io_time_ms, 
+  substr(query,1,200) 
+FROM 
+  pg_stat_statements 
+where 
+  shared_blks_hit > 0 
+ORDER BY 
+  (blk_read_time + blk_write_time)/calls DESC;
