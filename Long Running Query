@@ -1,1 +1,11 @@
+#Long running queries
+
 select pid,now(),now() - pg_stat_activity.query_start as duration,substr(pg_stat_activity.query, 1, 100) as query,pg_stat_activity.client_addr as ip_addr,state,pg_stat_activity.usename as username from pg_stat_activity where state='active' order by duration desc limit 30;
+
+#Long running queries with wait event
+
+
+SELECT pid, datname, query, extract(epoch from now()) - extract(epoch from xact_start) AS duration, case
+WHEN wait_event IS NULL THEN 'CPU'
+ELSE wait_event_type||':'||wait_event end wait FROM pg_stat_activity
+WHERE query!=current_query() AND xact_start IS NOT NULL ORDER BY 4 DESC;
