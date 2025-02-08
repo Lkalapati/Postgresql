@@ -1,1 +1,3 @@
+# Query helps to find the top tables with dead tuples
+
 SELECT relname AS TableName,n_live_tup AS LiveTuples,n_dead_tup AS DeadTuples,last_vacuum as ManVacuum,last_analyze AS ManAnalyze,last_autovacuum AS Autovacuum,last_autoanalyze AS Autoanalyze FROM pg_stat_user_tables order by DeadTuples desc;
